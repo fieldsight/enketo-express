@@ -48,6 +48,15 @@ router
  * @param {Function} next - callback for handling errors.
  */
 function submit( req, res, next ) {
+    let url = req.headers['referer'];
+    let site = '';
+    let  form = '';
+    if (url.indexOf('=') > 0 ){
+        site = url.split('=')[1].split('_')[0];
+        form = url.split('=')[1].split('_')[1];
+    }
+    console.log("site in submission", site)
+    console.log("form in submission", form)
     let submissionUrl;
     const paramName = req.app.get( 'query parameter to pass to submission' );
     const paramValue = req.query[ paramName ];
@@ -59,6 +68,14 @@ function submit( req, res, next ) {
     surveyModel.get( id )
         .then( survey => {
             submissionUrl = communicator.getSubmissionUrl( survey.openRosaServer ) + query;
+             if (deprecatedId){
+                 submissionUrl = submissionUrl + '?dep=' + deprecatedId;
+            }else if(survey.site && survey.site !='undefined'){
+                submissionUrl = submissionUrl + '?site=' + survey.site +'&form=' + survey.form;
+            }else if(site && site !='undefined'){
+                submissionUrl = submissionUrl + '?site=' + site +'&form=' + form;
+             }
+
             const credentials = userModel.getCredentials( req );
             return communicator.getAuthHeader( submissionUrl, credentials );
         } )
