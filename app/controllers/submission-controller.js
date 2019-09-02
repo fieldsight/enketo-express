@@ -70,12 +70,9 @@ function submit( req, res, next ) {
             submissionUrl = communicator.getSubmissionUrl( survey.openRosaServer ) + query;
              if (deprecatedId){
                  submissionUrl = submissionUrl + '?dep=' + deprecatedId;
-            }else if(survey.site && survey.site !='undefined'){
-                submissionUrl = submissionUrl + '?site=' + survey.site +'&form=' + survey.form;
             }else if(site && site !='undefined'){
                 submissionUrl = submissionUrl + '?site=' + site +'&form=' + form;
              }
-
             const credentials = userModel.getCredentials( req );
             return communicator.getAuthHeader( submissionUrl, credentials );
         } )
