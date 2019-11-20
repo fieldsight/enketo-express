@@ -13,8 +13,9 @@ RUN echo 'deb https://deb.nodesource.com/node_8.x xenial main' > /etc/apt/source
 
 COPY ./setup/docker/apt_requirements.txt ${ENKETO_SRC_DIR}/setup/docker/
 WORKDIR ${ENKETO_SRC_DIR}/
-RUN apt-get update && \
-    apt-get upgrade -y && \
+
+RUN apt-get update --fix-missing && \
+    apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     apt-get install -y nodejs $(cat setup/docker/apt_requirements.txt) && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
