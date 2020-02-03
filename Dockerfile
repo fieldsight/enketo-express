@@ -27,7 +27,7 @@ RUN cp /usr/share/unattended-upgrades/20auto-upgrades /etc/apt/apt.conf.d/20auto
 
 RUN npm install -g grunt-cli pm2
 COPY ./package.json ${ENKETO_SRC_DIR}/
-RUN npm install --production
+
 
 COPY . ${ENKETO_SRC_DIR}
 ENV PATH $PATH:${KPI_SRC_DIR}/node_modules/.bin
@@ -41,5 +41,15 @@ RUN ln -s "${ENKETO_SRC_DIR}/setup/docker/01_setup_enketo.bash" /etc/my_init.d/ 
     mkdir -p /etc/service/enketo_express && \
     ln -s "${ENKETO_SRC_DIR}/setup/docker/run_enketo.bash" /etc/service/enketo_express/run
 
+
+RUN  apt-get update --fix-missing && \
+  apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+  cd /srv/src/enketo_express && \
+  rm -rf .git && \
+  npm install --production && \
+  grunt
+
+COPY ./run_enketo.sh /srv/src/enketo_express/run_enketo.sh
 
 EXPOSE 8005
