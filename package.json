@@ -68,7 +68,7 @@
         "node-forge": "^0.7.6",
         "node-sass": "^4.9.2",
         "papaparse": "4.6.x",
-        "pug": "2.0.4",
+        "pug": "3.0.1",
         "puppeteer": "^1.2.0",
         "redis": "2.8.0",
         "request": "2.88.x",
