@@ -70,7 +70,7 @@
         "papaparse": "4.6.x",
         "pug": "2.0.4",
         "puppeteer": "^1.2.0",
-        "redis": "2.8.0",
+        "redis": "3.1.1",
         "request": "2.88.x",
         "rollup": "1.19.x",
         "rollup-plugin-alias": "^1.4.0",
